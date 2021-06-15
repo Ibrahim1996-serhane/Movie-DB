@@ -3,6 +3,12 @@ const application = express();
 const port = 3001;
 const d = new Date();
 const t = "Time is " +d.getHours() + ":" + d.getMinutes();
+const movies = [
+    { title: 'Jaws', year: 1975, rating: 8 },
+    { title: 'Avatar', year: 2009, rating: 7.8 },
+    { title: 'Brazil', year: 1985, rating: 8 },
+    { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
+]
 
 application.get('/', (req, resend) => {
     resend.send('Ok')
@@ -36,3 +42,13 @@ application.get("/search/:id?", (req, resend) => {
       });
     }
   });
+
+application.get("/movies/add", (req, resend) => {     
+})
+application.get("/movies/get", (req, resend) => {
+   resend.send({status:200, data:movies});
+});
+application.get("/movies/edit", (req, resend) => {     
+})
+application.get("/movies/delete", (req, resend) => {     
+})
