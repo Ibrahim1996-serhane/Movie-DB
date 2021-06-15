@@ -52,3 +52,12 @@ application.get("/movies/edit", (req, resend) => {
 })
 application.get("/movies/delete", (req, resend) => {     
 })
+application.get('/movies/get/by-date', (req, resend) => {
+ resend.send({status:200, data:movies.sort((a,b) => (a.year < b.year)? 1 : -1)});
+});
+application.get('/movies/get/by-rate', (req, resend) => {
+resend.send({status:200, data:movies.sort((a,b) => (a.rating < b.rating)? 1 : -1)});
+});
+application.get('/movies/get/by-title', (req, resend) => {
+resend.send({status:200, data:movies.sort((a,b) => (a.title > b.title)? 1 : -1)});
+});
