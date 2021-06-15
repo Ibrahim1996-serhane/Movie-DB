@@ -20,13 +20,14 @@ application.get("/time", (req, resend) => {
 application.get("/hello/:id", (req, resend) => {
     resend.send({ status: 200, message: "Hello," + req.params.id });
   });
-application.get("/search", (req, resend) => {
+application.get("/search/:id?", (req, resend) => {
    const search = req.query.s;
-    if (search) {
-      resend.send({ 
-          status: 200, 
-          message: "ok", 
-          data: search });
+    if (search ==""){
+      resend.send({
+         status: 200,
+         message: "ok",
+         data: search 
+        });
     } else {
       resend.send({
         status: 500,
