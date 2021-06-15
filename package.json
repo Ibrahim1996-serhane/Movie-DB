@@ -1,12 +1,11 @@
-
-
 {
   "name": "movie-db",
   "version": "1.0.0",
   "description": "or CMDB for short",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -17,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Ibrahim1996-serhane/Movie-DB/issues"
   },
-  "homepage": "https://github.com/Ibrahim1996-serhane/Movie-DB#readme"
+  "homepage": "https://github.com/Ibrahim1996-serhane/Movie-DB#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
 }
