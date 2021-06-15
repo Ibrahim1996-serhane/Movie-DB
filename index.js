@@ -61,3 +61,11 @@ resend.send({status:200, data:movies.sort((a,b) => (a.rating < b.rating)? 1 : -1
 application.get('/movies/get/by-title', (req, resend) => {
 resend.send({status:200, data:movies.sort((a,b) => (a.title > b.title)? 1 : -1)});
 });
+application.get("/movies/get/id/:id", (req, resend) => {
+    if (req.params.id > movies.length){
+        resend.status(404);
+        resend.send({status:404, error:true, message:'the movie <ID> does not exist'});
+    }else{
+        resend.send({status:200, data:movies[req.params.id-1]});
+    }
+})
