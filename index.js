@@ -17,3 +17,21 @@ application.get("/test", (req, resend) => {
 application.get("/time", (req, resend) => {
     resend.status(200).send({ status: 200, message: t });
   });
+application.get("/hello/:id", (req, resend) => {
+    resend.send({ status: 200, message: "Hello," + req.params.id });
+  });
+application.get("/search", (req, resend) => {
+   const search = req.query.s;
+    if (search) {
+      resend.send({ 
+          status: 200, 
+          message: "ok", 
+          data: search });
+    } else {
+      resend.send({
+        status: 500,
+        error: true,
+        message: "you have to provide a search",
+      });
+    }
+  });
