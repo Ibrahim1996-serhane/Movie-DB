@@ -1,6 +1,7 @@
 const express = require('express');
 const application = express();
 const port = 3001;
+application.use(express.json());
 const d = new Date();
 const t = "Time is " +d.getHours() + ":" + d.getMinutes();
 const movies = [
@@ -27,7 +28,7 @@ application.get("/hello/:id", (req, resend) => {
     resend.send({ status: 200, message: "Hello," + req.params.id });
   });
 application.get("/search/:id?", (req, resend) => {
-   const search = req.query.s;
+   const search = req.body.s; 
     if (search ==""){
       resend.send({
          status: 200,
@@ -43,10 +44,10 @@ application.get("/search/:id?", (req, resend) => {
     }
   });
 
-application.get("/movies/add", (req, resend) => {   
-  const t= req.query.title;
-  const y = req.query.year;
-  const r = req.query.rating;
+application.post("/movies/add", (req, resend) => {   
+  const t= req.body.title;
+  const y = req.body.year;
+  const r = req.body.rating;
   if(t == "" || y == "" || isNaN(y) || y.length != 4){
     resend.send({status:403, error:true, message:'you cannot create a movie without providing a title and a year'})
   }
@@ -65,21 +66,21 @@ application.get("/movies/add", (req, resend) => {
 application.get("/movies/get", (req, resend) => {
    resend.send({status:200, data:movies});
 });
-application.get("/movies/edit/:id", (req, resend) => {
+application.put ("/movies/edit/:id", (req, resend) => {
   selectedId = req.params.id - 1;
-  if(req.query.title == "" || typeof req.query.title === "undefined"){
-      movies[selectedId] = {title: movies[selectedId].title,year: req.query.year,rating: req.query.rating,};
+  if(req.body.title == "" || typeof req.body.title === "undefined"){
+      movies[selectedId] = {title: movies[selectedId].title,year: req.body.year,rating: req.body.rating,};
   } 
-  else if(req.query.year == "" || typeof req.query.year === "undefined") {
-      movies[selectedId] = {title: req.query.title,year: movies[selectedId].year,rating: req.query.rating,
+  else if(req.body.year == "" || typeof req.body.year === "undefined") {
+      movies[selectedId] = {title: req.body.title,year: movies[selectedId].year,rating: req.body.rating,
       };
   } 
-  else if(req.query.rating == "" || typeof req.query.rating === "undefined"){
-      movies[selectedId] = {title: req.query.title,year: req.query.year,rating: movies[selectedId].rating,
+  else if(req.body.rating == "" || typeof req.body.rating === "undefined"){
+      movies[selectedId] = {title: req.body.title,year: req.body.year,rating: movies[selectedId].rating,
       };
   }resend.status(200).send(movies);
 })
-application.get("/movies/delete/:id", (req, resend) => {  
+application.delete ("/movies/delete/:id", (req, resend) => {  
   if (movies[req.params.id-1]) {
     movies.splice(req.params.id, 1);
     resend.send({ status: 200, data: movies });
