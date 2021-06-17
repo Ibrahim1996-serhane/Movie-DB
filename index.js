@@ -50,8 +50,8 @@ application.get("/movies/add", (req, resend) => {
   if(t == "" || y == "" || isNaN(y) || y.length != 4){
     resend.send({status:403, error:true, message:'you cannot create a movie without providing a title and a year'})
   }
-  else {
-    
+  else {        
+
     if (t!="" && y!="" && r == ""){
       movies.push({ title : t , year :y, rating:4 } )
       resend.send({status:200, data:movies});
@@ -67,7 +67,15 @@ application.get("/movies/get", (req, resend) => {
 });
 application.get("/movies/edit", (req, resend) => {     
 })
-application.get("/movies/delete", (req, resend) => {     
+application.get("/movies/delete/:id", (req, resend) => {  
+  if (movies[req.params.id-1]) {
+    movies.splice(req.params.id, 1);
+    resend.send({ status: 200, data: movies });
+  }
+  else {
+    resend.status(404);
+    resend.send({ status: 404, error: true, message: 'the movie ' + req.params.id + ' does not exist' })
+  }
 })
 application.get('/movies/get/by-date', (req, resend) => {
  resend.send({status:200, data:movies.sort((a,b) => (a.year < b.year)? 1 : -1)});
