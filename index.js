@@ -65,7 +65,19 @@ application.get("/movies/add", (req, resend) => {
 application.get("/movies/get", (req, resend) => {
    resend.send({status:200, data:movies});
 });
-application.get("/movies/edit", (req, resend) => {     
+application.get("/movies/edit/:id", (req, resend) => {
+  selectedId = req.params.id - 1;
+  if(req.query.title == "" || typeof req.query.title === "undefined"){
+      movies[selectedId] = {title: movies[selectedId].title,year: req.query.year,rating: req.query.rating,};
+  } 
+  else if(req.query.year == "" || typeof req.query.year === "undefined") {
+      movies[selectedId] = {title: req.query.title,year: movies[selectedId].year,rating: req.query.rating,
+      };
+  } 
+  else if(req.query.rating == "" || typeof req.query.rating === "undefined"){
+      movies[selectedId] = {title: req.query.title,year: req.query.year,rating: movies[selectedId].rating,
+      };
+  }resend.status(200).send(movies);
 })
 application.get("/movies/delete/:id", (req, resend) => {  
   if (movies[req.params.id-1]) {
@@ -76,6 +88,7 @@ application.get("/movies/delete/:id", (req, resend) => {
     resend.status(404);
     resend.send({ status: 404, error: true, message: 'the movie ' + req.params.id + ' does not exist' })
   }
+     
 })
 application.get('/movies/get/by-date', (req, resend) => {
  resend.send({status:200, data:movies.sort((a,b) => (a.year < b.year)? 1 : -1)});
